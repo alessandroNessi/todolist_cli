@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
+  <div class="container-fluid" id="app">
+    <div class="container d-flex" id="main__container">
+      <div class="d-block div">ciao</div>
+    </div>
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
@@ -17,12 +19,18 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import "~bootstrap/dist/css/bootstrap.css";
+  @import "./common/css/variabiles.css";
+  #app {
+    font-family: "Roboto", sans-serif;
+    height: 100vh;
+    background-color: var(--main-bg-color);
+    // justify-content: center;
+    #main__container{
+      justify-content: center;
+    }
+    .div{
+      width: 20px;
+    }
+  }
 </style>
