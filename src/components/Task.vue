@@ -58,7 +58,7 @@ export default {
                 }
                 this.$emit('confirmEdit',this.task);
             }
-        }
+        },
     }
 }
 </script>

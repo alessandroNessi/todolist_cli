@@ -6,7 +6,9 @@
             <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
         </div>
         <div class="task__container">
-            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :filter=filter :task="task"></Task>
+            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" 
+            v-for="(task, index) in this.tasks" :key="index" :filter=filter draggable="true"
+            @dragstart="handleDragStart(event)" :task="task"></Task>
         </div>
       </div>
       <div class="filters">
@@ -72,6 +74,10 @@ export default {
         };
     },
     methods:{
+        handleDragStart(event){
+            alert('ciao');
+            console.log(event.target);
+        },
         //takes the value from the form and add to the tasks
         insertTask(){
             const target=document.getElementsByName("newtask__input")[0];
@@ -132,7 +138,6 @@ export default {
         },
         //save a modified task
         saveTask(task){
-            console.log(task);
             let found=false;
             for(let i=0;i<this.tasks.length&&found==false;i++){
                 if(this.tasks[i].id==task.id){
@@ -221,11 +226,6 @@ export default {
             padding:0 5px;
             border-right: 2px solid var(--grey-400);
         }
-        // .separator{
-        //     color: var(--grey-400);
-        //     margin:0 0.2rem;
-        //     font-size: 1.75rem;
-        // }
     }
     @media screen and (max-width: 320px) {
         .filters .separator{
