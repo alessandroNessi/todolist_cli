@@ -10,3 +10,7 @@ ul{
 p{
     margin-bottom: 0;
 }
+.completed{
+    color:var(--grey-400);
+    text-decoration: line-through;
+}

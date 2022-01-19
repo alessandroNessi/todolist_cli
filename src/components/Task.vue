@@ -1,8 +1,10 @@
 <template>
   <!-- <div @mouseenter="msg" class="task list__element d-flex align-items-center px-1"> -->
   <div class="task list__element d-flex justify-content-between align-items-center px-1">
-      <div class="content__container">
-        <p :class="this.task.editing?'d-none':''">{{task.content}}</p>
+      <div class="content__container" @click="checkAsDone">
+        <div :class="this.task.editing?'d-none':''">
+            <p :class="this.task.status=='completed'?'completed':''">{{task.content}}</p>
+        </div>
         <div v-if="this.task.editing" class="input-group edit__input">
             <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="edit__input--task form-control" :value="this.task.content" :placeholder="'edit '+this.task.id+' task'">
             <button @click="confirmEdit" class="btn btn-outline-secondary" type="button"><i class="fas fa-check-double"></i></button>
@@ -10,13 +12,17 @@
       </div>
       <div class="options__container">
           <button @click="copyOption" class="options option__copy"><i class="far fa-copy"></i></button>
-          <button @click="editOption" class="options option__edit"><i class="far fa-edit"></i></button>
+          <button @click="editOption" class="options option__edit">
+            <i v-if="!this.task.editing" class="far fa-edit yellow"></i>
+            <i v-else class="fas fa-undo-alt yellow"></i>
+          </button>
           <button @click="deleteOption" class="options option__delete"><i class="far fa-trash-alt"></i></button>
       </div>
   </div>
 </template>
 
 <script>
+// import { component } from 'vue/types/umd';
 export default {
     name:"Task",
     data() {
@@ -41,6 +47,16 @@ export default {
         },
         deleteOption(){
             this.$emit('emitDelete',this.task.id);
+        },
+        checkAsDone(){
+            if(this.task.editing==false){
+                if(this.task.status=="todo"){
+                    this.task.status="completed";
+                }else{
+                    this.task.status="todo";
+                }
+                this.$emit('confirmEdit',this.task);
+            }
         }
     }
 }
@@ -119,7 +135,7 @@ export default {
             .fa-copy{
                 color: var(--blue-400);
             }
-            .fa-edit{
+            .yellow{
                 color: var(--yellow-400);
             }
             .fa-trash-alt{

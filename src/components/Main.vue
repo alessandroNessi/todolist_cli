@@ -6,7 +6,7 @@
             <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
         </div>
         <div class="task__container">
-            <Task @confirmEdit="saveEdit" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :task="task"></Task>
+            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :task="task"></Task>
         </div>
       </div>
   </main>
@@ -118,7 +118,7 @@ export default {
                 console.log("error on enabling edit: task not found");
             }
         },
-        saveEdit(task){
+        saveTask(task){
             console.log(task);
             let found=false;
             for(let i=0;i<this.tasks.length&&found==false;i++){
