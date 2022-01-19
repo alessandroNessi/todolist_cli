@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid p-5" id="app">
+  <div class="container-fluid py-4" id="app">
     <div class="container d-flex" id="main__container">
       <Header title="TodoList"></Header>
       <Main></Main>
@@ -29,6 +29,7 @@ export default {
 <style lang="scss">
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "./common/css/variabiles.css";
+@import "./common/css/common.css";
 #app {
   font-family: "Roboto", sans-serif;
   background-color: var(--green-opacity-color);
