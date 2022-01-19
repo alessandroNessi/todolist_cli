@@ -14,9 +14,10 @@
     --grey-200:#444;
     --green-400:#009900;
     --blue-400:#3333ff;
+    --purple-500:#6666ff;
     --red-400:#ff3333;
-    --yellow-400:#cccc00;
-    --task-even:rgb(255,240,255);
+    --yellow-400:#ffcc00;
+    --task-even:rgb(235,255,235);
     --task-odd:rgb(255,255,230);
-    --task-hover:rgb(235,235,255);
+    --task-hover:rgb(220,220,220);
 }

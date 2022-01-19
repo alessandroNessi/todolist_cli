@@ -17,7 +17,7 @@ export default {
     }
     .credits{
         text-decoration: none;
-        color: #6666ff;
+        color: var(--purple-500);
         font-size: 00.5rem;
         // margin:0px;
     }

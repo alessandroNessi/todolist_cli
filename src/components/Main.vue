@@ -6,9 +6,18 @@
             <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
         </div>
         <div class="task__container">
-            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :task="task"></Task>
+            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :filter=filter :task="task"></Task>
         </div>
       </div>
+      <div class="filters">
+        <div class="d-flex filters__container align-items-center">
+            <p @mouseup="showIncompleted" class="filter pointer">show to-do's</p>
+            <p class="separator">|</p>
+            <p @mouseup="showAll" class="filter pointer">show all</p>
+            <p class="separator">|</p>
+            <p @mouseup="deleteCompleted" class="filter pointer">delete completed</p>
+        </div>
+    </div>
   </main>
 </template>
 
@@ -23,6 +32,7 @@ export default {
     data() {
         return {
             nextId:7,
+            filter:"all",
             editing:false,
             tasks:[{
                 id:1,
@@ -131,8 +141,21 @@ export default {
             if(found==false){
                 console.log("error on saving edit: task not found");
             }
+        },
+        showIncompleted(){
+            if(this.filter=="all"){
+                this.filter="todo";
+            }
+        },
+        showAll(){
+            if(this.filter=="todo"){
+                this.filter="all";
+            }
+        },
+        deleteCompleted(){
+            alert('deletecompleted');
         }
-    }
+    },
 }
 </script>
 
@@ -145,7 +168,7 @@ export default {
     }
     .task__container{
         height: calc(100% - var(--todo-element-height));
-//scrollbar personalization
+        //scrollbar personalization
         overflow-y: overlay;
         overflow-x: hidden;
         &::-webkit-scrollbar {
@@ -171,5 +194,27 @@ export default {
             color: var(--gray-200);
         }
         border-bottom: 1px solid gray;
+    }
+    .filters{
+        .filters__container{
+            height: 1.5625rem;
+        }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .separator{
+            margin:0 0.4rem;
+            font-size: 2rem;
+        }
+    }
+    @media screen and (max-width: 320px) {
+        .filters .separator{
+            display: none;
+        }
+        .filters .filters__container{
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 </style>

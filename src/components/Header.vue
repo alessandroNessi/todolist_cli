@@ -7,9 +7,16 @@
 <script>
 export default {
   name: "Header",
+  data(){
+      return{
+          showFilter:"all",
+      }
+  },
   props: {
     title: String,
   },
+  methods:{
+  }
 };
 </script>
 

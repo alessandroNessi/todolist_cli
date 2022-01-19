@@ -14,3 +14,9 @@ p{
     color:var(--grey-400);
     text-decoration: line-through;
 }
+.pointer{
+    cursor: pointer;
+}
+body{
+    /* font-size: .875rem; */
+}

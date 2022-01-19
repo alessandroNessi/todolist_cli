@@ -1,9 +1,9 @@
 <template>
   <!-- <div @mouseenter="msg" class="task list__element d-flex align-items-center px-1"> -->
-  <div class="task list__element d-flex justify-content-between align-items-center px-1">
-      <div class="content__container" @click="checkAsDone">
+  <div v-if="this.filter=='all'||(this.filter==this.task.status)" class="task list__element d-flex justify-content-between align-items-center px-1">
+      <div class="content__container" @mouseup="checkAsDone">
         <div :class="this.task.editing?'d-none':''">
-            <p :class="this.task.status=='completed'?'completed':''">{{task.content}}</p>
+            <p :class="this.task.status=='completed'?'completed pointer':'pointer'">{{task.content}}</p>
         </div>
         <div v-if="this.task.editing" class="input-group edit__input">
             <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="edit__input--task form-control" :value="this.task.content" :placeholder="'edit '+this.task.id+' task'">
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-// import { component } from 'vue/types/umd';
+// import { component } from 'vue/types/umd';?????????non l'ho scritto io, copia incolla da node?
 export default {
     name:"Task",
     data() {
@@ -31,6 +31,7 @@ export default {
         };
     },
     props: {
+        filter: String,
         task: Object,
     },
     methods:{
@@ -74,13 +75,12 @@ export default {
         &:hover{
             background-color: var(--task-hover);
             transition: background-color 100ms linear;
+            .options{
+                background-color: var(--white-700);
+            }
         }
         height: var(--todo-element-height);
         border-bottom: 1px solid gray;
-        // &:last-child{
-            // border-bottom: 0px;
-            // box-shadow: inset 0px -9px 5px 0px var( --main-container-bg-color);
-        // }
         .options__container{
             display: flex;
             // flex-direction: column;
@@ -92,6 +92,11 @@ export default {
                 margin-left: 0.5rem;
                 &:first-child{
                     margin-left: 0px;
+                }
+                &:hover{
+                    transform: scale(1.1);
+                    background-color: var(--white-700);
+                    transition: transform 100ms linear;
                 }
             }
         }
@@ -126,7 +131,7 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: var(--grey-700);
+                    background-color: var(--white-700);
                     color: var(--green-400);
                 }
             }
