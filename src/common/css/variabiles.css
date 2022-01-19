@@ -1,3 +1,5 @@
 :root{
-    --main-bg-color : red;
+    --main-bg-color : rgba(255,0,0,0.1);
+    --green-opacity-color: rgba(0,255,0,0.1);
+    --max-width:800px;
 }
