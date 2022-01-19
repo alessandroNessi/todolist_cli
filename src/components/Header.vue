@@ -16,5 +16,8 @@ export default {
 <style scoped lang="scss">
     header{
         justify-content: space-between;
+        h1{
+            margin:.725rem .25px;
+        }
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <main>
-      <div class="main__container my-3">
+      <div class="main__container">
         <div class="input-group mb-3" id="input__form">
             <input name="newtask__input" type="text" class="form-control" @keyup.enter="insertTask" placeholder="Insert a new task">
             <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
@@ -28,7 +28,7 @@ export default {
                 id:1,
                 status:"todo",
                 editing:false,
-                content:"primo task"
+                content:"primo Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda quasi sunt quis minima consectetur hic totam officia exercitationem rerum harum animi optio, ex eveniet cupiditate quos, nulla dolor dolorum sapiente!"
             },
             {
                 id:2,
@@ -67,8 +67,10 @@ export default {
         insertTask(){
             const target=document.getElementsByName("newtask__input")[0];
             const content = target.value;
-            target.value="";
-            this.insertNewElement(content);
+            if(content!=""){
+                target.value="";
+                this.insertNewElement(content);
+            }
         },
         insertNewElement(content){
             this.tasks.push({
@@ -158,10 +160,15 @@ export default {
         }
     }
     #input__form{
+        background-color: var(--white-700);
         margin-bottom: 0!important;
         height: var(--todo-element-height);
+        input{
+            border:0;
+        }
         #newtask__button{
             border-width:0px 0px 0px 1px;
+            color: var(--gray-200);
         }
         border-bottom: 1px solid gray;
     }

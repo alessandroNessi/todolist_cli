@@ -3,9 +3,9 @@
   <div class="task list__element d-flex justify-content-between align-items-center px-1">
       <div class="content__container">
         <p :class="this.task.editing?'d-none':''">{{task.content}}</p>
-        <div v-if="this.task.editing" class="edit__input">
-            <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="form-control" :value="this.task.content" :placeholder="'edit '+this.task.id+' task'">
-            <button @click="confirmEdit" class="btn btn-outline-secondary rounded-circle" type="button"><i class="fas fa-check"></i></button>
+        <div v-if="this.task.editing" class="input-group edit__input">
+            <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="edit__input--task form-control" :value="this.task.content" :placeholder="'edit '+this.task.id+' task'">
+            <button @click="confirmEdit" class="btn btn-outline-secondary" type="button"><i class="fas fa-check-double"></i></button>
         </div>
       </div>
       <div class="options__container">
@@ -41,11 +41,7 @@ export default {
         },
         deleteOption(){
             this.$emit('emitDelete',this.task.id);
-        },
-        //example targetting function on event
-        // msg: function(event){
-        //     event.target.getElementsByTagName("p")[0].style.display = "none";
-        // }
+        }
     }
 }
 </script>
@@ -53,12 +49,22 @@ export default {
 <style scoped lang="scss">
     .task{
         overflow-y: auto;
-        background-color: lightblue!important;
+        &:nth-child(2n){
+            background-color: var(--task-even);
+        }
+        &:nth-child(2n-1){
+            background-color: var(--task-odd);
+        }
+        &:hover{
+            background-color: var(--task-hover);
+            transition: background-color 100ms linear;
+        }
         height: var(--todo-element-height);
         border-bottom: 1px solid gray;
-        &:last-child{
-            border-bottom: 0px;
-        }
+        // &:last-child{
+            // border-bottom: 0px;
+            // box-shadow: inset 0px -9px 5px 0px var( --main-container-bg-color);
+        // }
         .options__container{
             display: flex;
             // flex-direction: column;
@@ -74,10 +80,12 @@ export default {
             }
         }
         .content__container{
-            width: calc(100% - 7.75rem);
-            overflow-x:overlay ;
+            width: calc(100% - 6.75rem);
+            max-height: calc(100% - 0.2rem);
+            overflow:overlay ;
             &::-webkit-scrollbar {
                 height: var(--scrollbar-width);
+                width: var(--scrollbar-width);
             }
             &::-webkit-scrollbar-thumb {
                 background: var(--scrollbar-color);
@@ -93,23 +101,53 @@ export default {
                 .form-control{
                     min-width: 100px;
                 }
+                &--task{
+                    background-color: var(--white-700);
+                }
                 .btn{
-                    width: calc(var(--todo-element-height) - 0.6rem);
-                    background-color: var(--gray-300);
+                    height: calc(var(--todo-element-height) - 0.60rem);
+                    align-self: center;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--grey-700);
                     color: var(--green-400);
                 }
             }
         }
         .options__container{
-            // min-width: 5.25rem;
+            .fa-copy{
+                color: var(--blue-400);
+            }
+            .fa-edit{
+                color: var(--yellow-400);
+            }
+            .fa-trash-alt{
+                color: var(--red-400);
+            }
         }
     }
     @media screen and (max-width: 375px) {
-        .options{
-            margin-left: 0rem!important;
+        .task .options__container .options{
+            margin-left: 0rem;
+            width: 1.65rem;
+            height: 1.65rem;
         }
-        .content__container{
-            width: calc(100% - 5.25rem)!important;
+        .task .content__container{
+            width: calc(100% - 4.25rem);
+            margin-right: 0.5rem;
+        }
+    }
+    @media screen and (max-width: 320px) {
+        .task .options__container .options{
+            margin-left: 0rem;
+            width: 1.45rem;
+            height: 1.45rem;
+            font-size: 0.9rem;
+        }
+        .task .content__container{
+            width: calc(100% - 3.25rem);
+            margin-right: 0.3rem;
         }
     }
 </style>

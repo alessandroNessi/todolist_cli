@@ -1,11 +1,22 @@
 :root{
-    --main-bg-color : rgba(255,0,0,0.1);
-    --green-opacity-color: rgba(0,255,0,0.1);
+    /* --main-bg-color : rgba(255,0,0,0.1); */
+    --main-container-bg-color: rgba(255,255,255,0.7);
+    /* --green-opacity-color: rgba(0,255,0,0.1); */
     --max-width:800px;
     --scrollbar-color:#888;
     --scrollbar-hover-color:#555;
     --scrollbar-width:.45rem;
     --todo-element-height:3rem;
-    --grey-300:#aaa;
+    --white-700:#fff;
+    --grey-700:#ccc;
+    --grey-600:#aaa;
+    --grey-400:#888;
+    --grey-200:#444;
     --green-400:#009900;
+    --blue-400:#3333ff;
+    --red-400:#ff3333;
+    --yellow-400:#aaaa33;
+    --task-even:rgb(255,240,255);
+    --task-odd:rgb(255,255,230);
+    --task-hover:rgb(235,235,255);
 }
