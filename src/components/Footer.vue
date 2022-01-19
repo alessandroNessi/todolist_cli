@@ -1,6 +1,6 @@
 <template>
   <footer class="d-flex flex-column">
-      <h5 class="intestation">credits:</h5>
+      <p class="intestation">credits:</p>
       <a class="credits" href='https://www.freepik.com/vectors/background'>Background vector created by BiZkettE1 - www.freepik.com</a>
   </footer>
 </template>
@@ -12,18 +12,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    footer{
+        padding: .4rem;
+    }
     .intestation{
-        margin-top: 1rem;
+        padding-top: 0.4rem;
+        border-top: 1px solid var(--grey-400);
     }
     .credits{
         text-decoration: none;
         color: var(--purple-500);
-        font-size: 00.5rem;
-        // margin:0px;
-    }
-    @media screen and (max-height: 600px) {
-        .intestation{
-            margin-top: 0.3rem;
-        }
+        font-size: .5rem;
     }
 </style>

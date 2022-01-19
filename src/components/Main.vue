@@ -11,10 +11,8 @@
       </div>
       <div class="filters">
         <div class="d-flex filters__container align-items-center">
-            <p @mouseup="showIncompleted" class="filter pointer">show to-do's</p>
-            <p class="separator">|</p>
-            <p @mouseup="showAll" class="filter pointer">show all</p>
-            <p class="separator">|</p>
+            <p v-if="this.filter=='all'" @mouseup="showIncompleted" class="filter pointer">hide completed</p>
+            <p v-else @mouseup="showAll" class="filter pointer">show all</p>
             <p @mouseup="deleteCompleted" class="filter pointer">delete completed</p>
         </div>
     </div>
@@ -31,9 +29,9 @@ export default {
     },
     data() {
         return {
-            nextId:7,
-            filter:"all",
-            editing:false,
+            nextId:7,//unique id
+            filter:"all",//data used to toggle the show of tasks completed
+            editing:false,//false= no editing, id=task on edit
             tasks:[{
                 id:1,
                 status:"todo",
@@ -74,6 +72,7 @@ export default {
         };
     },
     methods:{
+        //takes the value from the form and add to the tasks
         insertTask(){
             const target=document.getElementsByName("newtask__input")[0];
             const content = target.value;
@@ -82,6 +81,7 @@ export default {
                 this.insertNewElement(content);
             }
         },
+        //insert a new element in the tasks array given a content and sum the unique id
         insertNewElement(content){
             this.tasks.push({
                 id:this.nextId,
@@ -91,6 +91,7 @@ export default {
             });
             this.nextId++;
         },
+        //delete the task with the given id
         deleteTask(id){
             let found=false;
             for(let i=0;i<this.tasks.length&&found==false;i++){
@@ -106,8 +107,8 @@ export default {
                 console.log("error on delete: task not found");
             }
         },
+        //check if there is already an edit ongoing, if the edit is on the task on editing close the current edit
         checkEditing(id){
-            // alert(task.id);
             if(this.editing==false){
                 this.editing=id;
                 this.toggleEdit(id,true);
@@ -116,6 +117,7 @@ export default {
                 this.toggleEdit(id,false);
             }
         },
+        //toggle the propriety editing of the current task
         toggleEdit(id,value){
             let found=false;
             for(let i=0;i<this.tasks.length&&found==false;i++){
@@ -128,6 +130,7 @@ export default {
                 console.log("error on enabling edit: task not found");
             }
         },
+        //save a modified task
         saveTask(task){
             console.log(task);
             let found=false;
@@ -142,18 +145,25 @@ export default {
                 console.log("error on saving edit: task not found");
             }
         },
+        //show just the tasks that are still to do
         showIncompleted(){
             if(this.filter=="all"){
                 this.filter="todo";
             }
         },
+        //show all tasks
         showAll(){
             if(this.filter=="todo"){
                 this.filter="all";
             }
         },
+        //delete all completed tasks
         deleteCompleted(){
-            alert('deletecompleted');
+            this.tasks=this.tasks.filter((task)=>{
+                if(task.status!="completed"){
+                    return task;
+                }
+            });
         }
     },
 }
@@ -163,7 +173,7 @@ export default {
     .main__container{
         height: 70vh;
         border-radius: 5px;
-        border:1px solid grey;
+        border:1px solid var(--grey-400);
         overflow: hidden;
     }
     .task__container{
@@ -198,15 +208,24 @@ export default {
     .filters{
         .filters__container{
             height: 1.5625rem;
+            margin: 0.4rem 0;
         }
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .separator{
-            margin:0 0.4rem;
-            font-size: 2rem;
+        .filter{
+            &:last-child{
+                border-right: 0;
+            }
+            padding:0 5px;
+            border-right: 2px solid var(--grey-400);
         }
+        // .separator{
+        //     color: var(--grey-400);
+        //     margin:0 0.2rem;
+        //     font-size: 1.75rem;
+        // }
     }
     @media screen and (max-width: 320px) {
         .filters .separator{
