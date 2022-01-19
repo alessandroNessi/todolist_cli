@@ -3,10 +3,10 @@
       <div class="main__container my-3">
         <div class="input-group mb-3" id="input__form">
             <input name="newtask__input" type="text" class="form-control" @keyup.enter="insertTask" placeholder="Insert a new task">
-            <button class="btn btn-outline-secondary" @mouseup="insertTask" type="button" id="newtask__button">Submit</button>
+            <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
         </div>
         <div class="task__container">
-            <Task @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :task="task"></Task>
+            <Task @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" v-for="(task, index) in this.tasks" :key="index" :task="task"></Task>
         </div>
       </div>
   </main>
@@ -23,34 +23,41 @@ export default {
     data() {
         return {
             nextId:7,
+            editing:false,
             tasks:[{
                 id:1,
                 status:"todo",
+                editing:false,
                 content:"primo task"
             },
             {
                 id:2,
                 status:"todo",
+                editing:false,
                 content:"secondo task"
             },
             {
                 id:3,
                 status:"todo",
+                editing:false,
                 content:"terzo task"
             },
             {
                 id:4,
                 status:"todo",
+                editing:false,
                 content:"quarto task"
             },
             {
                 id:5,
                 status:"todo",
+                editing:false,
                 content:"quinto task"
             },
             {
                 id:6,
                 status:"todo",
+                editing:false,
                 content:"sesto task"
             },
             ],
@@ -67,6 +74,7 @@ export default {
             this.tasks.push({
                 id:this.nextId,
                 status:"todo",
+                editing:false,
                 content:content
             });
             this.nextId++;
@@ -77,6 +85,31 @@ export default {
                 if(this.tasks[i].id==id){
                     found=true;
                     this.tasks.splice(i,1);
+                    if(this.editing==id){
+                        this.editing=false;
+                    }
+                }
+            }
+            if(found==false){
+                console.log("error on delete: task not found");
+            }
+        },
+        checkEditing(id){
+            // alert(task.id);
+            if(this.editing==false){
+                this.editing=id;
+                this.toggleEdit(id,true);
+            }else if(this.editing==id){
+                this.editing=false;
+                this.toggleEdit(id,false);
+            }
+        },
+        toggleEdit(id,value){
+            let found=false;
+            for(let i=0;i<this.tasks.length&&found==false;i++){
+                if(this.tasks[i].id==id){
+                    found=true;
+                    this.tasks[i].editing=value;
                 }
             }
             if(found==false){

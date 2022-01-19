@@ -2,7 +2,11 @@
   <!-- <div @mouseenter="msg" class="task list__element d-flex align-items-center px-1"> -->
   <div class="task list__element d-flex justify-content-between align-items-center px-1">
       <div class="content__container">
-        <p>{{task.content}}</p>
+        <p :class="this.task.editing?'d-none':''">{{task.content}}</p>
+        <div :class="this.task.editing?'d-flex':'d-none'" class="edit__input" id="input__form">
+            <input name="newtask__input" type="text" class="form-control" :value="this.task.content" @keyup.enter="insertTask" :placeholder="'edit '+this.task.id+' task'">
+            <button class="btn btn-outline-secondary" type="button">Submit</button>
+        </div>
       </div>
       <div class="options__container">
           <button @mouseup="copyOption" class="options option__copy"><i class="far fa-copy"></i></button>
@@ -16,7 +20,9 @@
 export default {
     name:"Task",
     data() {
-        return {};
+        return {
+            onedit:false
+        };
     },
     props: {
         task: Object,
@@ -26,10 +32,9 @@ export default {
             this.$emit('emitCopy',this.task.content);
         },
         editOption(){
-            alert("edit "+this.task.id);
+            this.$emit('askEdit',this.task.id);
         },
         deleteOption(){
-            // alert("delete "+this.task.id);
             this.$emit('emitDelete',this.task.id);
         },
         //example targetting function on event
@@ -62,6 +67,24 @@ export default {
                     margin-left: 0px;
                 }
             }
+        }
+        .content__container{
+            width: 100%;
+            margin-right: 1rem;
+            .edit__input{
+                display: flex;
+                width: 100%;
+                .form-control{
+                    min-width: 100px;
+                }
+                .btn{
+                    // padding-left:2px;
+                    // padding-right:2px;
+                }
+            }
+        }
+        .options__container{
+            // min-width: 5.25rem;
         }
     }
 </style>
