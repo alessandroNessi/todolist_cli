@@ -7,12 +7,40 @@
     class="container-fluid app py-4 position-relative"
     id="app"
   >
-  <div v-if="this.editing!=false" class="d-flex justify-content-center align-items-center overlay position-absolute">
-    <div class="input-group edit__input">
-      <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="edit__input--task form-control" :value="0" :placeholder="'edit task'">
-      <button @click="confirmEdit" class="btn btn-outline-secondary" type="button"><i class="fas fa-check-double"></i></button>
+    <div
+      :class="this.editing != false?'d-flex':'d-none'"
+      class="
+        d-flex
+        justify-content-center
+        align-items-center
+        overlay
+        position-absolute
+      "
+    >
+      <div class="edit__input">
+        <div class="edit__input--container">
+          <button @mouseup="closeEdit" class="edit__input--container--closebutton rounded-circle"><i class="far fa-times-circle"></i></button>
+          <h6 for="edittask__input">Edit the text in the input below</h6>
+          <div class="input-group">
+            <input
+              @keyup.enter="confirmEdit"
+              name="edittask__input"
+              id="edittask__input"
+              type="text"
+              class="edit__input--task form-control"
+              :placeholder="'edit task'"
+            />
+            <button
+              @click="confirmEdit"
+              class="btn btn-outline-secondary"
+              type="button"
+            >
+              <i class="fas fa-check-double"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
     <div class="container d-flex" id="main__container">
       <Header
         @changeDayNight="changeDayNight"
@@ -45,7 +73,8 @@ export default {
     return {
       nextId: 7, //unique id
       day: true,
-      editing:false,
+      editing: false,
+      currentTask: null,
       bgrImage: "day",
       tasks: [
         {
@@ -95,8 +124,29 @@ export default {
     Footer,
   },
   methods: {
-    launchEdit(id){
-      this.editing=id;
+    launchEdit(id) {
+      this.editing = id;
+      let found = false;
+      for (let i = 0; i < this.tasks.length && found == false; i++) {
+        if (this.tasks[i].id == id) {
+          found = true;
+          this.currentTask=i;
+          document.getElementById('edittask__input').value=this.tasks[i].content;
+        }
+      }
+      if (found == false) {
+        console.log("error on delete: task not found");
+        this.editing=false;
+      }
+    },
+    closeEdit() {
+      this.editing = false;
+      // this.currentTask=null;
+      document.getElementById('edittask__input').value="";
+    },
+    confirmEdit(){
+      this.tasks[this.currentTask].content=document.getElementById('edittask__input').value;
+      this.closeEdit();
     },
     //delete all completed tasks
     deleteCompleted() {
@@ -200,21 +250,57 @@ export default {
 @import "./common/css/common.css";
 .app {
   font-family: "Roboto", sans-serif;
-  // background-image: url("./common/images/bgr.jpg");
-  // background-image:var(--main-bg-img);
   background-size: cover;
   background-position: center;
   height: 100vh;
   * {
     background-color: var(--main-bg-color);
   }
-  .overlay{
-    background-color: rgba(0,0,0,0.5);
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    backdrop-filter: blur(3px);
+    .edit__input {
+      &--container{
+        position: relative;
+        background-color: var(--white-700);
+        border-radius: .4375rem;
+        padding: .9375rem;
+        width: 100%;
+        &--closebutton{
+          width: 1.5625rem;
+          height: 1.5625rem;
+          font-size: 1.5rem;
+          color: var(--red-400);
+          border: none;
+          // border:2px solid var(--black-700);
+          position: absolute;
+          top: 0;
+          right: .3125rem;
+        }
+      }
+      display: flex;
+      width: var(--max-width);
+      .form-control {
+        min-width: 100px;
+      }
+      &--task {
+        background-color: white;
+      }
+      .btn {
+        height: calc(var(--todo-element-height) - 0.6rem);
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--white-700);
+        color: var(--green-400);
+      }
+    }
   }
   #main__container {
     background-color: var(--main-container-bg-color);

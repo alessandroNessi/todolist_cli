@@ -115,25 +115,25 @@ export default {
                 background:var(--scrollbar-hover-color);
             }
             margin-right: 1rem;
-            .edit__input{
-                display: flex;
-                width: 100%;
-                .form-control{
-                    min-width: 100px;
-                }
-                &--task{
-                    background-color: white;
-                }
-                .btn{
-                    height: calc(var(--todo-element-height) - 0.60rem);
-                    align-self: center;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: var(--white-700);
-                    color: var(--green-400);
-                }
-            }
+            // .edit__input{
+            //     display: flex;
+            //     width: 100%;
+            //     .form-control{
+            //         min-width: 100px;
+            //     }
+            //     &--task{
+            //         background-color: white;
+            //     }
+            //     .btn{
+            //         height: calc(var(--todo-element-height) - 0.60rem);
+            //         align-self: center;
+            //         display: flex;
+            //         justify-content: center;
+            //         align-items: center;
+            //         background-color: var(--white-700);
+            //         color: var(--green-400);
+            //     }
+            // }
         }
         .options__container{
             .fa-copy{
