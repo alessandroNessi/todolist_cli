@@ -1,4 +1,5 @@
 <template>
+
   <div
     :style="{
       backgroundImage:
@@ -7,6 +8,7 @@
     class="container-fluid app py-4 position-relative"
     id="app"
   >
+
     <div
       :class="this.editing != false?'d-flex':'d-none'"
       class="
@@ -17,11 +19,17 @@
         position-absolute
       "
     >
+
       <div class="edit__input">
+
         <div class="edit__input--container">
+
           <button @mouseup="closeEdit" class="edit__input--container--closebutton rounded-circle"><i class="far fa-times-circle"></i></button>
+
           <h6 for="edittask__input">Edit the text in the input below</h6>
+
           <div class="input-group">
+
             <input
               @keyup.enter="confirmEdit"
               name="edittask__input"
@@ -30,6 +38,7 @@
               class="edit__input--task form-control"
               :placeholder="'edit task'"
             />
+
             <button
               @click="confirmEdit"
               class="btn btn-outline-secondary"
@@ -37,30 +46,40 @@
             >
               <i class="fas fa-check-double"></i>
             </button>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
     <div class="container d-flex" id="main__container">
+
       <Header
         @changeDayNight="changeDayNight"
         title="TodoList"
         :day="day"
       ></Header>
+<!-- @saveTask="saveTask" **NO LONGER USED** -->
       <Main
         @deleteCompleted="deleteCompleted"
-        @saveTas="saveTask"
         @deleteTask="deleteTask"
         @insertNewElement="insertNewElement"
         @launchEdit="launchEdit"
         :tasks="tasks"
-        :nextId="nextId"
       ></Main>
+
       <Footer></Footer>
+
     </div>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    
   </div>
+
 </template>
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 <script>
 import Header from "./components/Header.vue";
@@ -68,15 +87,17 @@ import Main from "./components/Main.vue";
 import Footer from "./components/Footer.vue";
 
 export default {
+
   name: "App",
+
   data() {
     return {
       nextId: 7, //unique id
-      day: true,
-      editing: false,
-      currentTask: null,
-      bgrImage: "day",
-      tasks: [
+      day: false, //setted to false to swap on day on create
+      editing: false, //status of current editing controlling the show ov the overlay input
+      currentTask: null, //just the index of the task to pass to the overlay, to avoid another for
+      bgrImage: "day", //initial bgr image
+      tasks: [  //list of tasks
         {
           id: 1,
           status: "todo",
@@ -117,37 +138,49 @@ export default {
       ],
     };
   },
+
   components: {
-    // HelloWorld,
     Header,
     Main,
     Footer,
   },
+
+  //oncreated i create the color vars for day mode
+  created(){
+    this.changeDayNight();
+  },
+
   methods: {
+
+    //display the hidden input for edit
     launchEdit(id) {
       this.editing = id;
       let found = false;
-      for (let i = 0; i < this.tasks.length && found == false; i++) {
+      for (let i = 0; i < this.tasks.length && !found; i++) {
         if (this.tasks[i].id == id) {
           found = true;
           this.currentTask=i;
           document.getElementById('edittask__input').value=this.tasks[i].content;
         }
       }
-      if (found == false) {
+      if (!found) {
         console.log("error on delete: task not found");
         this.editing=false;
       }
     },
+
+    //on close edit empty the input value end hide the overlay
     closeEdit() {
       this.editing = false;
-      // this.currentTask=null;
       document.getElementById('edittask__input').value="";
     },
+
+    //on confirm update the task
     confirmEdit(){
       this.tasks[this.currentTask].content=document.getElementById('edittask__input').value;
       this.closeEdit();
     },
+
     //delete all completed tasks
     deleteCompleted() {
       this.tasks = this.tasks.filter((task) => {
@@ -156,20 +189,22 @@ export default {
         }
       });
     },
-    //save a modified task
-    saveTask(task) {
-      let found = false;
-      for (let i = 0; i < this.tasks.length && found == false; i++) {
-        if (this.tasks[i].id == task.id) {
-          found = true;
-          this.tasks[i] = task;
-          this.editing = false;
-        }
-      }
-      if (found == false) {
-        console.log("error on saving edit: task not found");
-      }
-    },
+
+    //save a modified task **NO LONGER USED**
+    // saveTask(task) {
+    //   let found = false;
+    //   for (let i = 0; i < this.tasks.length && found == false; i++) {
+    //     if (this.tasks[i].id == task.id) {
+    //       found = true;
+    //       this.tasks[i] = task;
+    //       this.editing = false;
+    //     }
+    //   }
+    //   if (found == false) {
+    //     console.log("error on saving edit: task not found");
+    //   }
+    // },
+
     //delete the task with the given id
     deleteTask(id) {
       let found = false;
@@ -185,7 +220,9 @@ export default {
       if (found == false) {
         console.log("error on delete: task not found");
       }
-    }, //insert a new element in the tasks array given a content and sum the unique id
+    }, 
+    
+    //insert a new element in the tasks array given a content and sum the unique id
     insertNewElement(content) {
       this.tasks.push({
         id: this.nextId,
@@ -195,6 +232,8 @@ export default {
       });
       this.nextId++;
     },
+
+    //change the color vars for the night/day modes
     changeDayNight() {
       const r = document.querySelector(":root");
       if (this.day == true) {
@@ -240,9 +279,12 @@ export default {
         r.style.setProperty("--scrollbar-hover-color", "#555");
       }
     },
+
   },
 };
 </script>
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 <style lang="scss">
 @import "~bootstrap/dist/css/bootstrap.css";
@@ -256,6 +298,7 @@ export default {
   * {
     background-color: var(--main-bg-color);
   }
+
   .overlay {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
@@ -264,7 +307,22 @@ export default {
     left: 0;
     right: 0;
     backdrop-filter: blur(3px);
+
     .edit__input {
+      display: flex;
+      width: var(--max-width);
+      .form-control {
+        min-width: 100px;
+      }
+      .btn {
+        height: calc(var(--todo-element-height) - 0.6rem);
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--white-700);
+        color: var(--green-400);
+      }
       &--container{
         position: relative;
         background-color: var(--white-700);
@@ -283,25 +341,12 @@ export default {
           right: .3125rem;
         }
       }
-      display: flex;
-      width: var(--max-width);
-      .form-control {
-        min-width: 100px;
-      }
       &--task {
         background-color: white;
       }
-      .btn {
-        height: calc(var(--todo-element-height) - 0.6rem);
-        align-self: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--white-700);
-        color: var(--green-400);
-      }
     }
   }
+
   #main__container {
     background-color: var(--main-container-bg-color);
     box-shadow: 0 0 3px 3px var(--main-container-bg-color);
@@ -311,5 +356,6 @@ export default {
     justify-content: center;
     max-width: var(--max-width);
   }
+  
 }
 </style>

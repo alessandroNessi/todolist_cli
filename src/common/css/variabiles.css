@@ -1,22 +1,7 @@
 :root{
     --main-container-bg-color: rgba(255,255,255,0.7);
     --max-width:800px;
-    --black-700:#000;
-    --scrollbar-color:#888;
-    --scrollbar-hover-color:#555;
     --scrollbar-width:.45rem;
     --todo-element-height:3rem;
-    --white-700:#fff;
-    --grey-700:#ddd;
-    --grey-600:#aaa;
-    --grey-400:#777;
-    --grey-200:#333;
-    --green-400:#009900;
-    --blue-400:#3333ff;
     --purple-500:#6666ff;
-    --red-400:#ff3333;
-    --yellow-400:#ffcc00;
-    --task-even:rgb(235,255,235);
-    --task-odd:rgb(255,255,230);
-    --task-hover:rgb(220,220,220);
 }

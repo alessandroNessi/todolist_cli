@@ -8,25 +8,34 @@
   </header>
 </template>
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 <script>
 export default {
+
   name: "Header",
+
   data(){
       return{
           showFilter:"all",
       }
   },
+
   props: {
     title: String,
     day:Boolean
   },
+
   methods:{
     emitChangeDay(){
       this.$emit('changeDayNight');
     }
   }
+  
 };
 </script>
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 <style scoped lang="scss">
     header{
