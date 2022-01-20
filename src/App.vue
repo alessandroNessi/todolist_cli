@@ -103,37 +103,37 @@ export default {
           status: "todo",
           editing: false,
           content:
-            "primo Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda quasi sunt quis minima consectetur hic totam officia exercitationem rerum harum animi optio, ex eveniet cupiditate quos, nulla dolor dolorum sapiente!",
+            "puntare la sveglia per domani mattina",
         },
         {
           id: 2,
           status: "todo",
           editing: false,
-          content: "secondo task",
+          content: "comprare il pane",
         },
         {
           id: 3,
           status: "todo",
           editing: false,
-          content: "terzo task",
+          content: "Medico di base venerdì 24 alle 09.30",
         },
         {
           id: 4,
           status: "todo",
           editing: false,
-          content: "quarto task",
+          content: "messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo messaggio molto lungo ",
         },
         {
           id: 5,
           status: "todo",
           editing: false,
-          content: "quinto task",
+          content: "andare in palestra",
         },
         {
           id: 6,
           status: "todo",
           editing: false,
-          content: "sesto task",
+          content: "preparare la cena e il pranzo per domani",
         },
       ],
     };
