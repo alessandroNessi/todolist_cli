@@ -18,5 +18,5 @@ p{
     cursor: pointer;
 }
 body{
-    /* font-size: .875rem; */
+    color: var(--black-700);
 }

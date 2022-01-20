@@ -6,15 +6,15 @@
             <button class="btn btn-outline-secondary" @click="insertTask" type="button" id="newtask__button">Submit</button>
         </div>
         <div class="task__container">
-            <Task @confirmEdit="saveTask" @askEdit="checkEditing" @emitDelete="deleteTask" @emitCopy="insertNewElement" 
+            <Task @confirmEdit="saveTask" @askEdit="launchEdit" @emitDelete="deleteTask" @emitCopy="insertNewElement" 
             v-for="(task, index) in this.tasks" :key="index" :filter=filter draggable="true"
             @dragstart="handleDragStart(event)" :task="task"></Task>
         </div>
       </div>
       <div class="filters">
         <div class="d-flex filters__container align-items-center">
-            <p v-if="this.filter=='all'" @mouseup="showIncompleted" class="filter pointer">hide completed</p>
-            <p v-else @mouseup="showAll" class="filter pointer">show all</p>
+            <p v-if="this.filter=='all'" @mouseup="showIncompleted" class="filter filter__left pointer">hide completed</p>
+            <p v-else @mouseup="showAll" class="filter filter__left pointer">show all</p>
             <p @mouseup="deleteCompleted" class="filter pointer">delete completed</p>
         </div>
     </div>
@@ -29,54 +29,22 @@ export default {
     components:{
         Task
     },
+    props:{
+        tasks:Array,
+        nextId:Number
+    },
     data() {
         return {
-            nextId:7,//unique id
             filter:"all",//data used to toggle the show of tasks completed
-            editing:false,//false= no editing, id=task on edit
-            tasks:[{
-                id:1,
-                status:"todo",
-                editing:false,
-                content:"primo Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda quasi sunt quis minima consectetur hic totam officia exercitationem rerum harum animi optio, ex eveniet cupiditate quos, nulla dolor dolorum sapiente!"
-            },
-            {
-                id:2,
-                status:"todo",
-                editing:false,
-                content:"secondo task"
-            },
-            {
-                id:3,
-                status:"todo",
-                editing:false,
-                content:"terzo task"
-            },
-            {
-                id:4,
-                status:"todo",
-                editing:false,
-                content:"quarto task"
-            },
-            {
-                id:5,
-                status:"todo",
-                editing:false,
-                content:"quinto task"
-            },
-            {
-                id:6,
-                status:"todo",
-                editing:false,
-                content:"sesto task"
-            },
-            ],
         };
     },
     methods:{
-        handleDragStart(event){
-            alert('ciao');
-            console.log(event.target);
+        // handleDragStart(event){
+        //     alert('ciao');
+        //     console.log(event.target);
+        // },
+        increaseNextId(){
+            this.$emit('increaseNextId');
         },
         //takes the value from the form and add to the tasks
         insertTask(){
@@ -89,66 +57,39 @@ export default {
         },
         //insert a new element in the tasks array given a content and sum the unique id
         insertNewElement(content){
-            this.tasks.push({
-                id:this.nextId,
-                status:"todo",
-                editing:false,
-                content:content
-            });
-            this.nextId++;
+            this.$emit('insertNewElement',content);
         },
         //delete the task with the given id
         deleteTask(id){
-            let found=false;
-            for(let i=0;i<this.tasks.length&&found==false;i++){
-                if(this.tasks[i].id==id){
-                    found=true;
-                    this.tasks.splice(i,1);
-                    if(this.editing==id){
-                        this.editing=false;
-                    }
-                }
-            }
-            if(found==false){
-                console.log("error on delete: task not found");
-            }
+            this.$emit('deleteTask',id);
         },
         //check if there is already an edit ongoing, if the edit is on the task on editing close the current edit
-        checkEditing(id){
-            if(this.editing==false){
-                this.editing=id;
-                this.toggleEdit(id,true);
-            }else if(this.editing==id){
-                this.editing=false;
-                this.toggleEdit(id,false);
-            }
+        launchEdit(id){
+            this.$emit('launchEdit',id);
+            // if(this.editing==false){
+            //     this.editing=id;
+            //     this.toggleEdit(id,true);
+            // }else if(this.editing==id){
+            //     this.editing=false;
+            //     this.toggleEdit(id,false);
+            // }
         },
         //toggle the propriety editing of the current task
-        toggleEdit(id,value){
-            let found=false;
-            for(let i=0;i<this.tasks.length&&found==false;i++){
-                if(this.tasks[i].id==id){
-                    found=true;
-                    this.tasks[i].editing=value;
-                }
-            }
-            if(found==false){
-                console.log("error on enabling edit: task not found");
-            }
-        },
+        // toggleEdit(id,value){
+        //     let found=false;
+        //     for(let i=0;i<this.tasks.length&&found==false;i++){
+        //         if(this.tasks[i].id==id){
+        //             found=true;
+        //             this.tasks[i].editing=value;
+        //         }
+        //     }
+        //     if(found==false){
+        //         console.log("error on enabling edit: task not found");
+        //     }
+        // },
         //save a modified task
         saveTask(task){
-            let found=false;
-            for(let i=0;i<this.tasks.length&&found==false;i++){
-                if(this.tasks[i].id==task.id){
-                    found=true;
-                    this.tasks[i]=task;
-                    this.editing=false;
-                }
-            }
-            if(found==false){
-                console.log("error on saving edit: task not found");
-            }
+            this.$emit('saveTask',task);
         },
         //show just the tasks that are still to do
         showIncompleted(){
@@ -164,11 +105,7 @@ export default {
         },
         //delete all completed tasks
         deleteCompleted(){
-            this.tasks=this.tasks.filter((task)=>{
-                if(task.status!="completed"){
-                    return task;
-                }
-            });
+            this.$emit("deleteCompleted")
         }
     },
 }
@@ -222,6 +159,10 @@ export default {
         .filter{
             &:last-child{
                 border-right: 0;
+            }
+            &__left{
+                width: 133px;
+                text-align: end;
             }
             padding:0 5px;
             border-right: 2px solid var(--grey-400);

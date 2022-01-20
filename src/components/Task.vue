@@ -5,16 +5,16 @@
         <div :class="this.task.editing?'d-none':''">
             <p :class="this.task.status=='completed'?'completed pointer':'pointer'">{{task.content}}</p>
         </div>
-        <div v-if="this.task.editing" class="input-group edit__input">
+        <!-- <div v-if="this.task.editing" class="input-group edit__input">
             <input @keyup.enter="confirmEdit" name="edittask__input" type="text" class="edit__input--task form-control" :value="this.task.content" :placeholder="'edit '+this.task.id+' task'">
             <button @click="confirmEdit" class="btn btn-outline-secondary" type="button"><i class="fas fa-check-double"></i></button>
-        </div>
+        </div> -->
       </div>
       <div class="options__container">
           <button @click="copyOption" class="options option__copy"><i class="far fa-copy"></i></button>
           <button @click="editOption" class="options option__edit">
-            <i v-if="!this.task.editing" class="far fa-edit yellow"></i>
-            <i v-else class="fas fa-undo-alt yellow"></i>
+            <i class="far fa-edit yellow"></i>
+            <!-- <i v-else class="fas fa-undo-alt yellow"></i> -->
           </button>
           <button @click="deleteOption" class="options option__delete"><i class="far fa-trash-alt"></i></button>
       </div>
@@ -67,16 +67,15 @@ export default {
     .task{
         overflow-y: auto;
         &:nth-child(2n){
-            background-color: var(--task-even);
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, var(--task-even) 5%, var(--task-even) 95%, rgba(0,0,0,0) 100%);
         }
         &:nth-child(2n-1){
-            background-color: var(--task-odd);
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, var(--task-odd) 5%, var(--task-odd) 95%, rgba(0,0,0,0) 100%);
         }
         &:hover{
-            background-color: var(--task-hover);
-            transition: background-color 100ms linear;
+            background: var(--task-hover);
             .options{
-                background-color: var(--white-700);
+                background: var(--white-700);
             }
         }
         height: var(--todo-element-height);
@@ -123,7 +122,7 @@ export default {
                     min-width: 100px;
                 }
                 &--task{
-                    background-color: var(--white-700);
+                    background-color: white;
                 }
                 .btn{
                     height: calc(var(--todo-element-height) - 0.60rem);
